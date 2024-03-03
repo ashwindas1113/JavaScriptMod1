@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Simple Form</title>
+<style>
+  .error {
+    color: red;
+  }
+  .success {
+    color: green;
+  }
+</style>
+</head>
+<body>
+
+<form id="signupForm">
+  <label for="email">Email:</label>
+  <input type="email" id="email" name="email" required>
+  <span id="emailError" class="error"></span><br><br>
+  
+  <label for="password">Password:</label>
+  <input type="password" id="password" name="password" required>
+  <span id="passwordError" class="error"></span><br><br>
+
+  <span id="allGoodToGo" class="success"></span><br><br>
+  
+  <input type="submit" value="Submit">
+</form>
+
+<script>
+document.getElementById('email').addEventListener('input', function() {
+  const email = this.value;
+  const emailError = document.getElementById('emailError');
+  if (email.length < 3 || !email.includes('@') || !email.includes('.')) {
+    emailError.textContent = 'Email should be at least 3 characters long and contain "@" and "."';
+  } else {
+    emailError.textContent = '';
+  }
+  checkAllGoodToGo();
+});
+
+document.getElementById('password').addEventListener('input', function() {
+  const password = this.value;
+  const passwordError = document.getElementById('passwordError');
+  if (password.length < 8) {
+    passwordError.textContent = 'Password should be at least 8 characters long';
+  } else {
+    passwordError.textContent = '';
+  }
+  checkAllGoodToGo();
+});
+
+function checkAllGoodToGo() {
+  const emailError = document.getElementById('emailError').textContent;
+  const passwordError = document.getElementById('passwordError').textContent;
+  const allGoodToGo = document.getElementById('allGoodToGo');
+  
+  if (emailError === '' && passwordError === '') {
+    allGoodToGo.textContent = 'All good to go';
+    allGoodToGo.style.color = 'green';
+  } else {
+    allGoodToGo.textContent = '';
+  }
+}
+
+document.getElementById('signupForm').addEventListener('submit', function(event) {
+  event.preventDefault();
+  const email = document.getElementById('email').value;
+  const password = document.getElementById('password').value;
+  
+  if (email.length >= 3 && email.includes('@') && email.includes('.') && password.length >= 8) {
+    const confirmed = confirm('Are you sure you want to sign up?');
+    if (confirmed) {
+      alert('Successful signup!');
+    } else {
+      window.location.reload();
+    }
+  } else {
+    alert('Please correct the errors in the form');
+  }
+});
+</script>
+
+</body>
+</html>
